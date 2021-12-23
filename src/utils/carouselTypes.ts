@@ -1,3 +1,7 @@
 export interface CarouselItemProps {
-    title: string
+    headline: string
+}
+
+export interface CarouselProps {
+    articles: CarouselItemProps[]
 }

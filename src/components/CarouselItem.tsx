@@ -5,7 +5,7 @@ import { CarouselItemProps } from '../utils/carouselTypes'
 export default function CarouselItem(props: CarouselItemProps) {
     return (
         <div>
-            {props.title}
+            {props.headline}
         </div>
     )
 }

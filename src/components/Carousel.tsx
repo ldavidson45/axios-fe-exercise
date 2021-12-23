@@ -1,14 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
-import CarouselItem from './CarouselItem'
 
-export const Carousel = () => {
-    const carouselItems = [{title: 'Item1'}, {title: 'Item2'}, {title: 'Item3'}]
-    const itemsList = carouselItems.map((item, index) => {
-        return <CarouselItem title={item.title} key={index}/>
+import CarouselItem from './CarouselItem.tsx'
+import { CarouselProps } from '../utils/carouselTypes'
+
+export const Carousel = (props: CarouselProps) => {
+
+    const itemsList = props.articles.map((item, index) => {
+        return <CarouselItem headline={item.headline} key={index}/>
     })
+    
 	return <CarouselContainer>
-        {itemsList}
+        { itemsList }
     </CarouselContainer>
 }
 
