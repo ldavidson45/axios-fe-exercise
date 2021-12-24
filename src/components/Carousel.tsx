@@ -7,7 +7,12 @@ import { CarouselProps } from '../utils/carouselTypes'
 export const Carousel = (props: CarouselProps) => {
 
     const itemsList = props.articles.map((item, index) => {
-        return <CarouselItem headline={item.headline} key={index}/>
+        const { id, headline, authors, published_date, permalink, primary_image, topics } = item
+        const articleData = {
+            id, headline, authors, published_date, permalink, primary_image, topics
+
+        }
+        return <CarouselItem {...articleData} key={index}/>
     })
     
 	return <CarouselContainer>

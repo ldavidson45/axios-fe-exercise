@@ -1,10 +1,12 @@
 import styled from 'styled-components';
+
+import GlobalStyle from '../styles/global-styles';
 import { Carousel } from '../components/Carousel.tsx'
 
 const Index = ({articles}) => {
-    // console.log(articles)
     return (
     <div>
+        <GlobalStyle />
         <Title>Axios Front End Excerise 🚀</Title>
         <Carousel  articles={ articles }/>
     </div>
