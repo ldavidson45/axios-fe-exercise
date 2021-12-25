@@ -16,7 +16,7 @@ export const Carousel = (props: CarouselProps) => {
 		})
 	}
 	const isMobile = useMediaQuery(
-		{ maxWidth: 990 },
+		{ maxWidth: 980 },
 		undefined,
 		handleMediaQueryChange
 	)
@@ -86,10 +86,9 @@ export const Carousel = (props: CarouselProps) => {
 			primary_image,
 			topics
 		}
-		return <div key={index}>
-            {props.articles.indexOf(item)}
+		return <CardContainer key={index}>
             <CarouselItem {...articleData}  />
-        </div>
+        </CardContainer>
 	})
 
 	return (
@@ -117,6 +116,14 @@ export const Carousel = (props: CarouselProps) => {
 				<div className="cards">
                     {itemsList}
                 </div>
+                <a
+						className="header__link header__link--mobile"
+						href="https://www.axios.com/"
+						target="_blank"
+                        rel="noreferrer"
+					>
+						Visit Axios.com
+					</a>
 			</CarouselContent>
 
 			<NavigationArrow isRight>
@@ -136,6 +143,11 @@ const CarouselContainer = styled.div`
 	width: 100vw;
 	padding: 40px 60px;
 	align-items: stretch;
+
+    @media(max-width: 980px) {
+        padding: 40px 0;
+    }
+
 `
 
 const CarouselContent = styled.div`
@@ -145,12 +157,14 @@ const CarouselContent = styled.div`
 	.header {
 		display: flex;
 		justify-content: space-between;
+        margin-bottom: 50px;
 
 		&__title {
-			font-size: 2.375rem;
+			font-size: 48px;
 			font-weight: 300;
 			color: #333335;
 			padding-left: 50px;
+            margin: 0;
 		}
 
 		&__link {
@@ -160,14 +174,47 @@ const CarouselContent = styled.div`
 			padding: 10px;
 			border-radius: 6px;
 			font-size: 18px;
+            margin-right: 50px;
+
+            &--mobile {
+                display: none;
+            }
 		}
+
+        @media(max-width: 980px) {
+            &__title {
+                font-size: 38px;
+                padding-left: 10px;
+            }
+
+            &__link {
+                display: none;
+
+                &--mobile {
+                    display: block;
+                    text-align: center;
+                    margin-top: 20px;
+                }
+            }
+
+        }
 	}
 
 	.cards {
 		display: flex;
 	}
 `
+const CardContainer = styled.div`
+flex: 1;
 
+    @media(min-width: 980px) {
+        width: 50%;
+        :not(:last-of-type) {
+            border-right: 1px solid #E9E9EE;
+        }
+    }
+
+`
 const NavigationArrow = styled.div`
 	display: flex;
 	align-items: center;
@@ -178,7 +225,10 @@ const NavigationArrow = styled.div`
 		border: 3px solid #bababe;
 		border-top: none;
 		border-right: none;
+        margin: auto;
 		transform: rotate(${props => (props.isRight ? '-135deg' : '45deg')});
+        transform-origin: center;
+
 
         :hover:enabled {
             border-color: #2257DA

@@ -14,14 +14,14 @@ export default function CarouselItem(props: CarouselItemProps) {
 		<ArticleWrapper>
             <a href={props.permalink} target="_blank">
 			<ArticleImage
-				src={primary_image?.base_image_url}
 				alt={primary_image?.alt_text}
+                url={primary_image?.base_image_url}
 			/>
             </a>
             <ArticleTopic>{ topicToDisplay }</ArticleTopic>
 			<ArticleHeadline href={props.permalink} target="_blank">{ props.headline }</ArticleHeadline>
             <ArticleSubhed>
-                <p className="date">{displayDate}</p>
+                <p className="date">{displayDate} <span className="topic"> - { topicToDisplay }</span></p>
                 <a className="link" href={props.permalink} target="_blank">Go deeper --></a>
             </ArticleSubhed>
 		</ArticleWrapper>
@@ -29,19 +29,40 @@ export default function CarouselItem(props: CarouselItemProps) {
 }
 
 const ArticleWrapper = styled.div`
+    max-width: 433px;
     padding: 0 3.125rem;
+    flex: 1;
+
+    @media (max-width: 980px) {
+        padding: 0 10px;
+        min-width: 237px;
+        width: 100%;
+
+      }
 `
 
 const ArticleTopic = styled.p`
 	font-size: 0.75rem;
 	color: #ab7d36;
-    margin: 5px 0;
+    margin-bottom: 5px;
+
+    @media (max-width: 980px) {
+        display: none;
+    }
+
+
 `
 
-const ArticleImage = styled.img`
+const ArticleImage = styled.div`
 	height: 205px;
-	width: 333px;
-    margin-bottom: 23px;
+    background-image: url(${props => props.url});
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 20px;
+
+    @media(max-width: 980px) {
+        width: 100%;
+    }
 `
 
 const ArticleHeadline = styled.a`
@@ -66,5 +87,22 @@ const ArticleSubhed = styled.div `
     .link {
         font-size: 1.125rem;
         color: #2257DA;
+    }
+
+    .topic {
+        display: none;
+    }
+
+    @media (max-width: 980px) {
+        .date {
+            font-size: 12px;
+        }
+        .topic {
+            display: inline;
+        }
+
+        .link {
+            display: none;
+        }
     }
 `
