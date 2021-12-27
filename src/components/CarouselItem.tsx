@@ -19,7 +19,10 @@ export default function CarouselItem(props: CarouselItemProps) {
 			/>
             </a>
             <ArticleTopic>{ topicToDisplay }</ArticleTopic>
-			<ArticleHeadline href={props.permalink} target="_blank">{ props.headline }</ArticleHeadline>
+            <ArticleHeadlineWrapper>
+            <ArticleHeadline href={props.permalink} target="_blank">{ props.headline }</ArticleHeadline>
+
+            </ArticleHeadlineWrapper>
             <ArticleSubhed>
                 <p className="date">{displayDate} <span className="topic"> - { topicToDisplay }</span></p>
                 <a className="link" href={props.permalink} target="_blank">Go deeper --></a>
@@ -64,6 +67,10 @@ const ArticleImage = styled.div`
         width: 100%;
     }
 `
+
+const ArticleHeadlineWrapper = styled.div`
+    height: 66px;
+    `
 
 const ArticleHeadline = styled.a`
     font-size: 1.125rem;

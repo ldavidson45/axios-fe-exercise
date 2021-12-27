@@ -5,14 +5,11 @@ import styled from 'styled-components'
 import CarouselItem from './CarouselItem.tsx'
 import { CarouselProps } from '../utils/carouselTypes'
 
-
 export const Carousel = (props: CarouselProps) => {
 	const handleMediaQueryChange = isMobile => {
 		setCarouselSpecs({
-            ...carouselSpecs,
-			countVisibleItems: isMobile ? 2 : 3,
-			activeGroupIndex: 0,
-
+			...carouselSpecs,
+			countVisibleItems: isMobile ? 2 : 3
 		})
 	}
 	const isMobile = useMediaQuery(
@@ -22,50 +19,45 @@ export const Carousel = (props: CarouselProps) => {
 	)
 	const [carouselSpecs, setCarouselSpecs] = useState({
 		countVisibleItems: isMobile ? 2 : 3,
-		activeGroupIndex: 0,
-        activeItemIndex: 0,
+		activeItemIndex: 0
 	})
 
-    const { countVisibleItems, activeGroupIndex, activeItemIndex } = carouselSpecs
+	const { countVisibleItems, activeItemIndex } = carouselSpecs
 
-    const visibleItems = () => {
-        const articles = [...props.articles]
-        return articles.slice(activeItemIndex, activeItemIndex + countVisibleItems)
-    }
+	const visibleItems = () => {
+		const articles = [...props.articles]
+		return articles.slice(activeItemIndex, activeItemIndex + countVisibleItems)
+	}
 
-    const nextItemIndex = () => {
-        return isMobile ? activeItemIndex + 1 : activeItemIndex + countVisibleItems
-    }
+	const nextItemIndex = () => {
+		return isMobile ? activeItemIndex + 1 : activeItemIndex + countVisibleItems
+	}
+	const previousItemIndex = () => {
+		return isMobile ? activeItemIndex - 1 : activeItemIndex - countVisibleItems
+	}
 
-    const previousItemIndex = () => {
-        return isMobile ? activeItemIndex - 1 : activeItemIndex - countVisibleItems
-    }
+	const isNavigationButtonDisabled = direction => {
+		if (direction === 'next') {
+			return !props.articles[nextItemIndex()]
+		}
+		if (direction === 'previous') {
+			return !props.articles[previousItemIndex()]
+		}
+	}
 
-    const isNavigationButtonDisabled = (direction) => {
-        if (direction === 'next') {
-            return !props.articles[nextItemIndex()]
-        }
-        if (direction === 'previous') {
-            return !props.articles[previousItemIndex()]
-        }
+	const updateActiveItem = direction => {
+		let newActiveItem
+		if (direction === 'next') {
+			newActiveItem = nextItemIndex()
+		} else if (direction === 'previous') {
+			newActiveItem = previousItemIndex()
+		}
 
-
-    }
-
-    const updateActiveItem = (direction) => {
-        let newActiveItem;
-        if (direction === 'next') {
-            newActiveItem = nextItemIndex()
-        } else if (direction === 'previous') {
-            newActiveItem = previousItemIndex()
-        }
-        
-        setCarouselSpecs({
-            ...carouselSpecs,
-            activeItemIndex: newActiveItem
-        })
-    }
-
+		setCarouselSpecs({
+			...carouselSpecs,
+			activeItemIndex: newActiveItem
+		})
+	}
 
 	const itemsList = visibleItems().map((item, index) => {
 		const {
@@ -86,9 +78,11 @@ export const Carousel = (props: CarouselProps) => {
 			primary_image,
 			topics
 		}
-		return <CardContainer key={index}>
-            <CarouselItem {...articleData}  />
-        </CardContainer>
+		return (
+			<CardContainer key={index}>
+				<CarouselItem {...articleData} />
+			</CardContainer>
+		)
 	})
 
 	return (
@@ -98,7 +92,7 @@ export const Carousel = (props: CarouselProps) => {
 					onClick={() => updateActiveItem('previous')}
 					aria-label="previous"
 					type="button"
-                    disabled={isNavigationButtonDisabled('previous')}
+					disabled={isNavigationButtonDisabled('previous')}
 				/>
 			</NavigationArrow>
 			<CarouselContent>
@@ -108,22 +102,20 @@ export const Carousel = (props: CarouselProps) => {
 						className="header__link"
 						href="https://www.axios.com/"
 						target="_blank"
-                        rel="noreferrer"
+						rel="noreferrer"
 					>
 						Visit Axios.com
 					</a>
 				</div>
-				<div className="cards">
-                    {itemsList}
-                </div>
-                <a
-						className="header__link header__link--mobile"
-						href="https://www.axios.com/"
-						target="_blank"
-                        rel="noreferrer"
-					>
-						Visit Axios.com
-					</a>
+				<div className="cards">{itemsList}</div>
+				<a
+					className="header__link header__link--mobile"
+					href="https://www.axios.com/"
+					target="_blank"
+					rel="noreferrer"
+				>
+					Visit Axios.com
+				</a>
 			</CarouselContent>
 
 			<NavigationArrow isRight>
@@ -131,7 +123,7 @@ export const Carousel = (props: CarouselProps) => {
 					onClick={() => updateActiveItem('next')}
 					aria-label="next"
 					type="button"
-                    disabled={isNavigationButtonDisabled('next')}
+					disabled={isNavigationButtonDisabled('next')}
 				/>
 			</NavigationArrow>
 		</CarouselContainer>
@@ -141,13 +133,14 @@ export const Carousel = (props: CarouselProps) => {
 const CarouselContainer = styled.div`
 	display: flex;
 	width: 100vw;
+	max-width: 1440px;
+	margin: auto;
 	padding: 40px 60px;
 	align-items: stretch;
 
-    @media(max-width: 980px) {
-        padding: 40px 0;
-    }
-
+	@media (max-width: 980px) {
+		padding: 40px 0;
+	}
 `
 
 const CarouselContent = styled.div`
@@ -157,14 +150,14 @@ const CarouselContent = styled.div`
 	.header {
 		display: flex;
 		justify-content: space-between;
-        margin-bottom: 50px;
+		margin-bottom: 50px;
 
 		&__title {
 			font-size: 48px;
 			font-weight: 300;
 			color: #333335;
 			padding-left: 50px;
-            margin: 0;
+			margin: 0;
 		}
 
 		&__link {
@@ -174,30 +167,29 @@ const CarouselContent = styled.div`
 			padding: 10px;
 			border-radius: 6px;
 			font-size: 18px;
-            margin-right: 50px;
+			margin-right: 50px;
 
-            &--mobile {
-                display: none;
-            }
+			&--mobile {
+				display: none;
+			}
 		}
 
-        @media(max-width: 980px) {
-            &__title {
-                font-size: 38px;
-                padding-left: 10px;
-            }
+		@media (max-width: 980px) {
+			&__title {
+				font-size: 38px;
+				padding-left: 10px;
+			}
 
-            &__link {
-                display: none;
+			&__link {
+				display: none;
 
-                &--mobile {
-                    display: block;
-                    text-align: center;
-                    margin-top: 20px;
-                }
-            }
-
-        }
+				&--mobile {
+					display: block;
+					text-align: center;
+					margin-top: 20px;
+				}
+			}
+		}
 	}
 
 	.cards {
@@ -205,15 +197,14 @@ const CarouselContent = styled.div`
 	}
 `
 const CardContainer = styled.div`
-flex: 1;
+	flex: 1;
 
-    @media(min-width: 980px) {
-        width: 50%;
-        :not(:last-of-type) {
-            border-right: 1px solid #E9E9EE;
-        }
-    }
-
+	@media (min-width: 980px) {
+		width: 50%;
+		:not(:last-of-type) {
+			border-right: 1px solid #e9e9ee;
+		}
+	}
 `
 const NavigationArrow = styled.div`
 	display: flex;
@@ -225,16 +216,15 @@ const NavigationArrow = styled.div`
 		border: 3px solid #bababe;
 		border-top: none;
 		border-right: none;
-        margin: auto;
+		margin: auto;
 		transform: rotate(${props => (props.isRight ? '-135deg' : '45deg')});
-        transform-origin: center;
+		transform-origin: center;
 
-
-        :hover:enabled {
-            border-color: #2257DA
-        }
-        :disabled {
-            border: none;
-        }
+		:hover:enabled {
+			border-color: #2257da;
+		}
+		:disabled {
+			border: none;
+		}
 	}
 `
